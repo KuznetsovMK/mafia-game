@@ -21,6 +21,7 @@ public class DailyResultState implements State {
             game.setState(game.getGameOverState());
         } else {
             game.setState(game.getDailyMeetingState());
+            game.getNightResults().clear();
         }
     }
 }

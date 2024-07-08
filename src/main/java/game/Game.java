@@ -1,10 +1,13 @@
 package game;
 
 import lombok.Data;
+import player.Player;
 import state.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Game {
@@ -22,18 +25,21 @@ public class Game {
     private State state;
     private boolean gameOver;
     private List<String> nightResults = new ArrayList<>();
+//    private List<Player> players = new ArrayList<>();
+    private Map<String, Player> playerByName = new HashMap<>();
+    private Map<String, List<String>> suspect = new HashMap<>();
 
     public Game() {
-        this.preparationState = new PreparationState(this);
-        this.definingRoleState = new DefiningRoleState(this);
-        this.mafiaMeetingState = new MafiaMeetingState(this);
-        this.dailyResultState = new DailyResultState(this);
-        this.dailyMeetingState = new DailyMeetingState(this);
-        this.lawsuitState = new LawsuitState(this);
-        this.nightState = new NightState(this);
-        this.mafiaShootingState = new MafiaShootingState(this);
-        this.leaderMoveState = new LeaderMoveState(this);
-        this.gameOverState = new GameOverState(this);
+        preparationState = new PreparationState(this);
+        definingRoleState = new DefiningRoleState(this);
+        mafiaMeetingState = new MafiaMeetingState(this);
+        dailyResultState = new DailyResultState(this);
+        dailyMeetingState = new DailyMeetingState(this);
+        lawsuitState = new LawsuitState(this);
+        nightState = new NightState(this);
+        mafiaShootingState = new MafiaShootingState(this);
+        leaderMoveState = new LeaderMoveState(this);
+        gameOverState = new GameOverState(this);
 
         state = preparationState;
     }

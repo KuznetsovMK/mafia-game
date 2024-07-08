@@ -9,9 +9,7 @@ public class DailyMeetingState implements State {
 
     @Override
     public void nextGameLevel() {
-        System.out.println("Местные жители встречаются, чтобы обсудить последние новости и определить двох подозреваемых...");
-
-        System.out.println("Подозреваемые определены.");
+        System.out.println("Местные жители встречаются, чтобы обсудить последние новости");
         game.setState(game.getLawsuitState());
     }
 }
