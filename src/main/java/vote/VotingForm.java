@@ -2,11 +2,12 @@ package vote;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import role.ActionType;
 
 @Data
 @AllArgsConstructor
-public class MafiaVote {
-    private String mafiaName;
+public class VotingForm {
+    private String initiatorName;
     private String targetName;
-    private boolean confirm;
+    private ActionType actionType;
 }

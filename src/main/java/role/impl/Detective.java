@@ -19,7 +19,8 @@ public class Detective implements Shooter, Looking {
 
     @Override
     public void shoot(Player target) {
-        //todo выполнить команду выстрела
+        //todo команда выстрела. Изменение поля isAlive произойдёт
+        // в момент выполнения команды
         System.out.println(INFO);
     }
 

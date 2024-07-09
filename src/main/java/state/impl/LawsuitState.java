@@ -1,8 +1,9 @@
-package state;
+package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
 import player.Player;
+import state.State;
 
 import java.util.Comparator;
 import java.util.Map;

@@ -11,15 +11,13 @@ import java.util.List;
 @Data
 public class Mafia implements Shooter {
     private List<Player> mafiaPlayers;
-    //обмен клиента и сервера (голосование за выбор жертвы)
-    //действие завершения хода фиксирует выбор игрока
-    //после того как все сделаю выбор, определить одну жерву и вызвать команду
+    private static final String INFO = "Прозвучал выстрел...";
 
     @Override
     public void shoot(Player target) {
         //todo команда выстрела. Изменение поля isAlive произойдёт
         // в момент выполнения команды
-        System.out.println("Прозвучал выстрел...");
+        System.out.println(INFO);
     }
 
     public void addMafia(Player player) {
@@ -27,7 +25,6 @@ public class Mafia implements Shooter {
         player.setRole(RoleNameConst.MAFIA);
         player.setAlive(true);
     }
-
 
 
     public Mafia() {

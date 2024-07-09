@@ -1,11 +1,15 @@
-package state;
+package state.impl;
 
 import game.Game;
 import lombok.Data;
 import player.Player;
+import role.ActionType;
 import role.RoleNameConst;
 import role.impl.Mafia;
-import vote.MafiaVote;
+import role.Information;
+import state.State;
+import vote.Voter;
+import vote.VotingForm;
 
 import java.util.*;
 
@@ -13,35 +17,38 @@ import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
 @Data
-public class MafiaShootingState implements State {
+public class MafiaShootingState implements State, Voter, Information {
+    private static final String INFO = "Просыпается мафия.";
     private final Game game;
     private final Mafia mafia;
-    private Map<String, MafiaVote> voteByMafiaName;
+    private Map<String, VotingForm> voteByMafiaName;
     private List<String> targets;
 
     @Override
     public void nextGameLevel() {
-        System.out.println("Просыпается мафия.");
+        System.out.println(INFO);
         voteByMafiaName = new HashMap<>();
         targets = getPossibleTargetNames();
 
         info();
     }
 
+    @Override
     public void info() {
         var aliveMafia = mafia.getMafiaPlayers().stream()
                 .filter(Player::isAlive)
                 .toList();
 
-        aliveMafia.forEach(e -> e.sendMessage(generateInfo()));
+        aliveMafia.forEach(player -> player.sendMessage(generateInfo()));
     }
 
-    public void vote(String targetName, String mafiaName, boolean confirm) {
-        if (canVote(mafiaName))
-            voteByMafiaName.put(mafiaName, new MafiaVote(mafiaName, targetName, confirm));
+    @Override
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
+        if (canVote(initiatorName))
+            voteByMafiaName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
 
         if (allConfirm()) {
-            mafia.shoot(getTarget());
+            action();
             goNextGameLevel();
         }
     }
@@ -56,7 +63,7 @@ public class MafiaShootingState implements State {
 
     private String generateInfo() {
         var votesByTargetName = voteByMafiaName.values().stream()
-                .collect(groupingBy(MafiaVote::getTargetName, mapping(identity(), toList())));
+                .collect(groupingBy(VotingForm::getTargetName, mapping(identity(), toList())));
 
         return targets.stream()
                 .collect(toMap(identity(), target -> votesByTargetName
@@ -66,22 +73,32 @@ public class MafiaShootingState implements State {
 
     private boolean canVote(String mafiaName) {
         var vote = voteByMafiaName.get(mafiaName);
-        return !vote.isConfirm();
+        return vote.getActionType() == null;
     }
 
     private boolean allConfirm() {
         return voteByMafiaName.values().stream()
-                .allMatch(MafiaVote::isConfirm);
+                .allMatch(e -> e.getActionType() != null);
     }
 
-    private Player getTarget() {
-        var targetNames = new ArrayList<>(voteByMafiaName.values().stream()
-                .map(MafiaVote::getTargetName)
-                .toList());
-        Collections.shuffle(targetNames);
+    private void action() {
+        var target = getTarget();
+        var targetName = target.getTargetName();
 
-        var targetName = targetNames.get(0);
-        return game.getPlayerByName().get(targetName);
+        switch (target.getActionType()) {
+            case SHOOT -> mafia.shoot(game.getPlayerByName().get(targetName));
+        }
+    }
+
+    private VotingForm getTarget() {
+        var targetList = new ArrayList<>(voteByMafiaName.values().stream()
+                .toList());
+        if (targetList.size() > 1) {
+            Collections.shuffle(targetList);
+            Collections.shuffle(targetList);
+        }
+
+        return targetList.get(0);
     }
 
     private void goNextGameLevel() {

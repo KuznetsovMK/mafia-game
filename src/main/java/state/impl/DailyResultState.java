@@ -1,7 +1,8 @@
-package state;
+package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
+import state.State;
 
 @AllArgsConstructor
 public class DailyResultState implements State {
