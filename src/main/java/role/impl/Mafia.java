@@ -1,23 +1,36 @@
 package role.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import player.Player;
-import role.Killer;
-import role.Voter;
+import role.RoleNameConst;
+import role.Shooter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-public class Mafia extends Role implements Voter, Killer {
-    private Player player;
+public class Mafia implements Shooter {
+    private List<Player> mafiaPlayers;
+    //обмен клиента и сервера (голосование за выбор жертвы)
+    //действие завершения хода фиксирует выбор игрока
+    //после того как все сделаю выбор, определить одну жерву и вызвать команду
 
     @Override
-    public void kill() {
-
+    public void shoot(Player target) {
+        //todo команда выстрела. Изменение поля isAlive произойдёт
+        // в момент выполнения команды
+        System.out.println("Прозвучал выстрел...");
     }
 
-    @Override
-    public void vote(Player target) {
-        System.out.println("%s voted for a %s".formatted(player.getName(), target.getName()));
+    public void addMafia(Player player) {
+        mafiaPlayers.add(player);
+        player.setRole(RoleNameConst.MAFIA);
+        player.setAlive(true);
+    }
+
+
+
+    public Mafia() {
+        this.mafiaPlayers = new ArrayList<>();
     }
 }

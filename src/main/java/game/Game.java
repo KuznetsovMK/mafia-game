@@ -37,6 +37,8 @@ public class Game {
         dailyMeetingState = new DailyMeetingState(this);
         lawsuitState = new LawsuitState(this);
         nightState = new NightState(this);
+        //ниличие той или иной стадии завист от наличие ролей для этой стадии
+        //если роль мафии не была создана, то и стадия не должна создаваться
         mafiaShootingState = new MafiaShootingState(this);
         leaderMoveState = new LeaderMoveState(this);
         gameOverState = new GameOverState(this);

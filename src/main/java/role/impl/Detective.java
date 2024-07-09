@@ -1,28 +1,42 @@
 package role.impl;
 
-import lombok.AllArgsConstructor;
+import game.Game;
 import lombok.Data;
 import player.Player;
-import role.Killer;
-import role.Recognizer;
-import role.Voter;
+import role.Looking;
+import role.RoleNameConst;
+import role.Shooter;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
-@AllArgsConstructor
-public class Detective extends Role implements Voter, Killer, Recognizer {
-    private Player player;
+public class Detective implements Shooter, Looking {
+    private Game game;
+    private Player detectivePlayer;
+    private Map<String, String> targetRoleByName;
+    private static final String INFO = "Лидер сделал свой ход.";
 
     @Override
-    public void kill() {
-
+    public void shoot(Player target) {
+        //todo выполнить команду выстрела
+        System.out.println(INFO);
     }
 
     @Override
-    public void recognize() {
+    public void look(String targetName) {
+        var target = game.getPlayerByName().get(targetName);
+        targetRoleByName.put(targetName, target.getRole());
 
+        System.out.println(INFO);
     }
 
-    @Override
-    public void vote(Player target) {
+    public Detective(Game game, Player player) {
+        this.game = game;
+        this.targetRoleByName = new HashMap<>();
 
+        this.detectivePlayer = player;
+        player.setRole(RoleNameConst.DETECTIVE);
+        player.setAlive(true);
     }
 }

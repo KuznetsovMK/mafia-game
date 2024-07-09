@@ -2,27 +2,22 @@ package role.impl;
 
 import lombok.Data;
 import player.Player;
-import role.Voter;
+import role.RoleNameConst;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-public class Settler extends Role implements Voter {
-    private Player player;
+public class Settler {
+    private List<Player> settlerPlayers;
 
-    @Override
-    public void vote(Player target) {
-        System.out.println("%s voted for a %s".formatted(player.getName(), target.getName()));
-    }
-
-    public Settler(Player player) {
-        this.player = player;
-        player.setRole(this);
+    public void addSettler(Player player) {
+        settlerPlayers.add(player);
+        player.setRole(RoleNameConst.SETTLER);
         player.setAlive(true);
     }
 
-    @Override
-    public String toString() {
-        return "Settler{" +
-                "player=" + player.getName() +
-                '}';
+    public Settler() {
+        this.settlerPlayers = new ArrayList<>();
     }
 }

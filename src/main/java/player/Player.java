@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import role.impl.Role;
 
 @Data
 @Builder
@@ -13,6 +12,11 @@ import role.impl.Role;
 public class Player {
     private String name;
     private boolean ready;
-    private Role role;
+    private String role;
     private boolean alive;
+
+    public void sendMessage(String msg) {
+        System.out.println("Send message for %:".formatted(name));
+        System.out.println(msg);
+    }
 }

@@ -36,6 +36,6 @@ class DefiningRoleStateTest {
     }
 
     private void addPlayers(Game game, List<Player> players) {
-        players.forEach(e -> game.getPlayerByName().put(e.getName(), e));
+        players.forEach(player -> game.getPlayerByName().put(player.getName(), player));
     }
 }
