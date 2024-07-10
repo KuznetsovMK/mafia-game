@@ -21,6 +21,7 @@ public class Detective implements Shooter, Looking {
     public void shoot(Player target) {
         //todo команда выстрела. Изменение поля isAlive произойдёт
         // в момент выполнения команды
+        target.setAlive(false);
         System.out.println(INFO);
     }
 

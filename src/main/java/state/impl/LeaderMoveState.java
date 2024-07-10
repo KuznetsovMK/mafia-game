@@ -29,6 +29,7 @@ public class LeaderMoveState implements State {
             targets = getPossibleTargetNames();
 
             info();
+
         } else {
             goNextGameLevel();
         }
@@ -41,6 +42,7 @@ public class LeaderMoveState implements State {
 
     @Override
     public void vote(String targetName, String initiatorName, ActionType actionType) {
+        //добавить валидацию, что цель и стрелок существуют
         if (canVote(initiatorName))
             voteByDetectiveName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
 
@@ -80,9 +82,9 @@ public class LeaderMoveState implements State {
     }
 
     private boolean allConfirm() {
-        return !voteByDetectiveName.values().isEmpty()
-                && voteByDetectiveName.values().stream()
-                .allMatch(e -> e.getActionType() != null);
+        return !voteByDetectiveName.values().isEmpty() &&
+                voteByDetectiveName.values().stream()
+                        .allMatch(e -> e.getActionType() != null);
     }
 
     private void action() {
@@ -111,6 +113,7 @@ public class LeaderMoveState implements State {
 
     private void goNextGameLevel() {
         game.setState(game.getDailyResultState());
+        game.nextGameLevel();
     }
 
     public LeaderMoveState(Game game) {

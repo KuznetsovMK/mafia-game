@@ -4,9 +4,8 @@ import game.Game;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
-import role.RoleNameConst;
-import role.impl.Mafia;
 import role.Information;
+import role.RoleNameConst;
 import state.State;
 import vote.Voter;
 import vote.VotingForm;
@@ -25,11 +24,16 @@ public class MafiaShootingState implements State, Voter, Information {
 
     @Override
     public void nextGameLevel() {
-        System.out.println(INFO);
-        voteByMafiaName = new HashMap<>();
-        targets = getPossibleTargetNames();
+        if (someOneAlive()) {
+            System.out.println(INFO);
+            voteByMafiaName = new HashMap<>();
+            targets = getPossibleTargetNames();
 
-        info();
+            info();
+
+        } else {
+            goNextGameLevel();
+        }
     }
 
     @Override
@@ -43,13 +47,21 @@ public class MafiaShootingState implements State, Voter, Information {
 
     @Override
     public void vote(String targetName, String initiatorName, ActionType actionType) {
+        //добавить валидацию, что цель и стрелок существуют
         if (canVote(initiatorName))
             voteByMafiaName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
+
+        info();
 
         if (allConfirm()) {
             action();
             goNextGameLevel();
         }
+    }
+
+    private boolean someOneAlive() {
+        return game.getMafia().getMafiaPlayers().stream()
+                .anyMatch(Player::isAlive);
     }
 
     private List<String> getPossibleTargetNames() {
@@ -72,20 +84,23 @@ public class MafiaShootingState implements State, Voter, Information {
 
     private boolean canVote(String mafiaName) {
         var vote = voteByMafiaName.get(mafiaName);
-        return vote.getActionType() == null;
+        return vote == null || vote.getActionType() == null;
     }
 
     private boolean allConfirm() {
-        return voteByMafiaName.values().stream()
-                .allMatch(e -> e.getActionType() != null);
+        return !voteByMafiaName.values().isEmpty() &&
+                game.getMafia().getMafiaPlayers().stream().filter(Player::isAlive).count() ==
+                        voteByMafiaName.values().size() &&
+                voteByMafiaName.values().stream()
+                        .allMatch(e -> e.getActionType() != null);
     }
 
     private void action() {
         var target = getTarget();
         var targetName = target.getTargetName();
 
-        switch (target.getActionType()) {
-            case SHOOT -> game.getMafia().shoot(game.getPlayerByName().get(targetName));
+        if (target.getActionType() == ActionType.SHOOT) {
+            game.getMafia().shoot(game.getPlayerByName().get(targetName));
         }
     }
 
@@ -102,6 +117,7 @@ public class MafiaShootingState implements State, Voter, Information {
 
     private void goNextGameLevel() {
         game.setState(game.getLeaderMoveState());
+        game.nextGameLevel();
     }
 
     public MafiaShootingState(Game game) {
