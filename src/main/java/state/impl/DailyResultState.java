@@ -2,6 +2,7 @@ package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
+import role.ActionType;
 import state.State;
 
 @AllArgsConstructor
@@ -24,5 +25,15 @@ public class DailyResultState implements State {
             game.setState(game.getDailyMeetingState());
             game.getNightResults().clear();
         }
+    }
+
+    @Override
+    public void info() {
+
+    }
+
+    @Override
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
+
     }
 }

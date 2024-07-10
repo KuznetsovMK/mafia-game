@@ -27,9 +27,9 @@ class LawsuitStateTest {
                 .build();
 
 
-        new Settler(player1);
-        new Settler(player2);
-        new Settler(suspect);
+//        new Settler(player1);
+//        new Settler(player2);
+//        new Settler(suspect);
 
         var game = new Game();
         addPlayers(game, List.of(player1, player2, suspect));

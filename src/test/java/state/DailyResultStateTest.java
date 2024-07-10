@@ -24,8 +24,8 @@ class DailyResultStateTest {
                 .build();
 
 
-        new Settler(player1);
-        new Settler(player2);
+//        new Settler(player1);
+//        new Settler(player2);
 
         var game = new Game();
         addPlayers(game, List.of(player1, player2));

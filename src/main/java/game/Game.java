@@ -2,7 +2,10 @@ package game;
 
 import lombok.Data;
 import player.Player;
-import state.*;
+import role.ActionType;
+import role.impl.Detective;
+import role.impl.Mafia;
+import state.State;
 import state.impl.*;
 
 import java.util.ArrayList;
@@ -26,9 +29,12 @@ public class Game {
     private State state;
     private boolean gameOver;
     private List<String> nightResults = new ArrayList<>();
-//    private List<Player> players = new ArrayList<>();
+    //    private List<Player> players = new ArrayList<>();
     private Map<String, Player> playerByName = new HashMap<>();
     private Map<String, List<String>> suspect = new HashMap<>();
+
+    private Detective detective;
+    private Mafia mafia;
 
     public Game() {
         preparationState = new PreparationState(this);
@@ -49,5 +55,20 @@ public class Game {
 
     public void nextGameLevel() {
         state.nextGameLevel();
+    }
+
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
+        state.vote(targetName, initiatorName, actionType);
+    }
+
+    public void info() {
+        state.info();
+    }
+
+    public void gameInfo() {
+        System.out.println("Game state: %s".formatted(state.getClass().getSimpleName()));
+
+        playerByName.values()
+                .forEach(player -> System.out.println(player));
     }
 }

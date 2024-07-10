@@ -27,7 +27,13 @@ public class Mafia implements Shooter {
     }
 
 
-    public Mafia() {
-        this.mafiaPlayers = new ArrayList<>();
+    public Mafia(List<Player> players) {
+        mafiaPlayers = new ArrayList<>();
+
+        players.forEach(player -> {
+            mafiaPlayers.add(player);
+            player.setRole(RoleNameConst.MAFIA);
+            player.setAlive(true);
+        });
     }
 }

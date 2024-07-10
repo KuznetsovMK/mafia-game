@@ -1,14 +1,12 @@
 package state.impl;
 
 import game.Game;
+import lombok.Data;
 import player.Player;
 import player.ShortPlayer;
 import role.ActionType;
-import role.Information;
 import role.RoleNameConst;
-import role.impl.Detective;
 import state.State;
-import vote.Voter;
 import vote.VotingForm;
 
 import java.util.*;
@@ -16,25 +14,29 @@ import java.util.*;
 import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
-public class LeaderMoveState implements State, Voter, Information {
+@Data
+public class LeaderMoveState implements State {
     private static final String INFO = "Просыпается лидер.";
     private final Game game;
-    private final Detective detective;
     private Map<String, VotingForm> voteByDetectiveName;
     private List<ShortPlayer> targets;
 
     @Override
     public void nextGameLevel() {
-        System.out.println(INFO);
-        voteByDetectiveName = new HashMap<>();
-        targets = getPossibleTargetNames();
+        if (game.getDetective().getDetectivePlayer().isAlive()) {
+            System.out.println(INFO);
+            voteByDetectiveName = new HashMap<>();
+            targets = getPossibleTargetNames();
 
-        info();
+            info();
+        } else {
+            goNextGameLevel();
+        }
     }
 
     @Override
     public void info() {
-        detective.getDetectivePlayer().sendMessage(generateInfo());
+        game.getDetective().getDetectivePlayer().sendMessage(generateInfo());
     }
 
     @Override
@@ -62,7 +64,7 @@ public class LeaderMoveState implements State, Voter, Information {
 
         return targets.stream()
                 .collect(toMap(target -> {
-                            var targetPlayerRole = detective.getTargetRoleByName().get(target.getName());
+                            var targetPlayerRole = game.getDetective().getTargetRoleByName().get(target.getName());
                             target.setRole(targetPlayerRole);
 
                             return target;
@@ -74,11 +76,12 @@ public class LeaderMoveState implements State, Voter, Information {
 
     private boolean canVote(String detectiveName) {
         var vote = voteByDetectiveName.get(detectiveName);
-        return vote.getActionType() == null;
+        return vote == null || vote.getActionType() == null;
     }
 
     private boolean allConfirm() {
-        return voteByDetectiveName.values().stream()
+        return !voteByDetectiveName.values().isEmpty()
+                && voteByDetectiveName.values().stream()
                 .allMatch(e -> e.getActionType() != null);
     }
 
@@ -87,8 +90,11 @@ public class LeaderMoveState implements State, Voter, Information {
         var targetName = target.getTargetName();
 
         switch (target.getActionType()) {
-            case LOOK -> detective.look(targetName);
-            case SHOOT -> detective.shoot(game.getPlayerByName().get(targetName));
+            case LOOK -> {
+                game.getDetective().look(targetName);
+                info();
+            }
+            case SHOOT -> game.getDetective().shoot(game.getPlayerByName().get(targetName));
         }
     }
 
@@ -104,11 +110,10 @@ public class LeaderMoveState implements State, Voter, Information {
     }
 
     private void goNextGameLevel() {
-        game.setState(game.getLeaderMoveState());
+        game.setState(game.getDailyResultState());
     }
 
-    public LeaderMoveState(Game game, Detective detective) {
+    public LeaderMoveState(Game game) {
         this.game = game;
-        this.detective = detective;
     }
 }

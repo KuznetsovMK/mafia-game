@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.*;
 public class MafiaShootingState implements State, Voter, Information {
     private static final String INFO = "Просыпается мафия.";
     private final Game game;
-    private final Mafia mafia;
     private Map<String, VotingForm> voteByMafiaName;
     private List<String> targets;
 
@@ -35,7 +34,7 @@ public class MafiaShootingState implements State, Voter, Information {
 
     @Override
     public void info() {
-        var aliveMafia = mafia.getMafiaPlayers().stream()
+        var aliveMafia = game.getMafia().getMafiaPlayers().stream()
                 .filter(Player::isAlive)
                 .toList();
 
@@ -86,7 +85,7 @@ public class MafiaShootingState implements State, Voter, Information {
         var targetName = target.getTargetName();
 
         switch (target.getActionType()) {
-            case SHOOT -> mafia.shoot(game.getPlayerByName().get(targetName));
+            case SHOOT -> game.getMafia().shoot(game.getPlayerByName().get(targetName));
         }
     }
 
@@ -105,8 +104,7 @@ public class MafiaShootingState implements State, Voter, Information {
         game.setState(game.getLeaderMoveState());
     }
 
-    public MafiaShootingState(Game game, Mafia mafia) {
+    public MafiaShootingState(Game game) {
         this.game = game;
-        this.mafia = mafia;
     }
 }

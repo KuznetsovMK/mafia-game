@@ -16,7 +16,7 @@ public class Player {
     private boolean alive;
 
     public void sendMessage(String msg) {
-        System.out.println("Send message for %:".formatted(name));
+        System.out.println("Send message for %s:".formatted(name));
         System.out.println(msg);
     }
 }

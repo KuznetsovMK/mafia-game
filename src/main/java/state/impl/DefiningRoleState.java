@@ -2,6 +2,7 @@ package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
+import role.ActionType;
 import state.State;
 
 @AllArgsConstructor
@@ -18,6 +19,16 @@ public class DefiningRoleState implements State {
         } else {
             System.out.println("Роли еще не назначены всем игрокам.");
         }
+    }
+
+    @Override
+    public void info() {
+
+    }
+
+    @Override
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
+
     }
 
     private boolean roleIsDefining() {

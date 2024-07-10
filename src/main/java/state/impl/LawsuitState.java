@@ -3,6 +3,7 @@ package state.impl;
 import game.Game;
 import lombok.AllArgsConstructor;
 import player.Player;
+import role.ActionType;
 import state.State;
 
 import java.util.Comparator;
@@ -33,6 +34,18 @@ public class LawsuitState implements State {
         } else {
             System.out.println("Голосование не завершилось. Подозреваемый не определён.");
         }
+
+        System.out.println("Технический переход на другой уровень");
+    }
+
+    @Override
+    public void info() {
+
+    }
+
+    @Override
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
+
     }
 
     private void possibleSuspectNames() {

@@ -28,10 +28,10 @@ class DefiningRoleStateTest {
         addPlayers(game, List.of(player1, player2));
         game.nextGameLevel();
 
-        new Settler(player2);
+//        new Settler(player2);
         game.nextGameLevel();
 
-        new Settler(player1);
+//        new Settler(player1);
         game.nextGameLevel();
     }
 

@@ -3,6 +3,7 @@ package state.impl;
 import game.Game;
 import lombok.AllArgsConstructor;
 import player.Player;
+import role.ActionType;
 import state.State;
 
 import java.util.List;
@@ -21,6 +22,16 @@ public class PreparationState implements State {
         } else {
             System.out.println("Следующие игроки еще не готовы: %s".formatted(getUnreadyPlayerNames()));
         }
+
+    }
+
+    @Override
+    public void info() {
+
+    }
+
+    @Override
+    public void vote(String targetName, String initiatorName, ActionType actionType) {
 
     }
 
