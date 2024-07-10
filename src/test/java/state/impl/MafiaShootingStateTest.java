@@ -9,8 +9,9 @@ import role.impl.Mafia;
 
 import java.util.List;
 
-class LeaderMoveStateTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class MafiaShootingStateTest {
     @Test
     void test1() {
         var player1 = Player.builder()
@@ -28,43 +29,25 @@ class LeaderMoveStateTest {
                 .ready(true)
                 .build();
 
+        var player4 = Player.builder()
+                .name("Player_4")
+                .ready(true)
+                .build();
+
 
         var game = new Game();
-        addPlayers(game, List.of(player1, player2, player3));
+        addPlayers(game, List.of(player1, player2, player3, player4));
         game.nextGameLevel();
 
         game.setDetective(new Detective(game, player2));
         game.setMafia(new Mafia(List.of(player1, player3)));
 
-        game.setState(game.getLeaderMoveState());
+        game.setState(game.getMafiaShootingState());
         game.nextGameLevel();
 
-        game.vote("Player_3", "Player_2", null);
-        game.info();
+        game.vote("Player_2", "Player_1", ActionType.SHOOT);
+        game.vote("Player_2", "Player_3", ActionType.SHOOT);
 
-        game.vote("Player_1", "Player_2", ActionType.LOOK);
-        game.info();
-
-        game.setState(game.getLeaderMoveState());
-        game.nextGameLevel();
-
-        game.vote("Player_3", "Player_2", ActionType.LOOK);
-        game.info();
-
-        game.setState(game.getLeaderMoveState());
-        game.nextGameLevel();
-
-        game.vote("Player_3", "Player_2", ActionType.SHOOT);
-        game.info();
-
-        game.setState(game.getLeaderMoveState());
-        game.nextGameLevel();
-
-        game.vote("Player_1", "Player_2", ActionType.SHOOT);
-        game.info();
-
-        game.setState(game.getLeaderMoveState());
-        game.nextGameLevel();
 
         game.gameInfo();
 
