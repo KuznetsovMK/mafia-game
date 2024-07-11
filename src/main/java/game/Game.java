@@ -19,7 +19,6 @@ import java.util.Queue;
 public class Game {
     private State preparationState;
     private State definingRoleState;
-    private State mafiaMeetingState;
     private State dailyResultState;
     private State dailyMeetingState;
     private State lawsuitState;
@@ -39,7 +38,7 @@ public class Game {
 
     public Game() {
         preparationState = new PreparationState(this);
-        definingRoleState = new DefiningRoleState(this);
+        definingRoleState = new DefineRoleState(this);
         dailyResultState = new DailyResultState(this);
         dailyMeetingState = new DailyMeetingState(this);
         lawsuitState = new LawsuitState(this);

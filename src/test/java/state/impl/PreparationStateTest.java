@@ -4,9 +4,6 @@ import game.Game;
 import org.junit.jupiter.api.Test;
 import player.Player;
 import role.ActionType;
-import role.impl.Detective;
-import role.impl.Mafia;
-import role.impl.Settler;
 
 import java.util.List;
 

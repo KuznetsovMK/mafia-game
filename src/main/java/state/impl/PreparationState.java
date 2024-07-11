@@ -19,6 +19,11 @@ public class PreparationState implements State {
         System.out.println(INFO);
 
         info();
+
+        if (allPlayersReady()) {
+            System.out.println(ALL_READY);
+            goNextGameLevel();
+        }
     }
 
     @Override

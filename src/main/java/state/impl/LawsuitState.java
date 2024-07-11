@@ -4,10 +4,8 @@ import game.Game;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
-import role.Information;
 import service.TargetService;
 import state.State;
-import vote.Voter;
 import vote.VotingForm;
 
 import java.util.HashMap;
@@ -26,16 +24,11 @@ public class LawsuitState implements State {
 
     @Override
     public void nextGameLevel() {
-        if (someOneAlive()) {
-            System.out.println(INFO);
-            voteFormByInitiatorName = new HashMap<>();
-            targets = getPossibleTargetNames();
+        System.out.println(INFO);
+        voteFormByInitiatorName = new HashMap<>();
+        targets = getPossibleTargetNames();
 
-            info();
-
-        } else {
-            goNextGameLevel();
-        }
+        info();
     }
 
     @Override
@@ -59,11 +52,6 @@ public class LawsuitState implements State {
             action();
             goNextGameLevel();
         }
-    }
-
-    private boolean someOneAlive() {
-        return game.getPlayerByName().values().stream()
-                .anyMatch(Player::isAlive);
     }
 
     private List<String> getPossibleTargetNames() {

@@ -1,14 +1,13 @@
 package state.impl;
 
 import game.Game;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
-import role.Information;
 import role.RoleNameConst;
 import service.TargetService;
 import state.State;
-import vote.Voter;
 import vote.VotingForm;
 
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
 @Data
+@AllArgsConstructor
 public class MafiaShootingState implements State {
     private static final String INFO = "Просыпается мафия.";
     private final Game game;
@@ -27,16 +27,11 @@ public class MafiaShootingState implements State {
 
     @Override
     public void nextGameLevel() {
-        if (someOneAlive()) {
-            System.out.println(INFO);
-            voteByMafiaName = new HashMap<>();
-            targets = getPossibleTargetNames();
+        System.out.println(INFO);
+        voteByMafiaName = new HashMap<>();
+        targets = getPossibleTargetNames();
 
-            info();
-
-        } else {
-            goNextGameLevel();
-        }
+        info();
     }
 
     @Override
@@ -60,11 +55,6 @@ public class MafiaShootingState implements State {
             action();
             goNextGameLevel();
         }
-    }
-
-    private boolean someOneAlive() {
-        return game.getMafia().getMafiaPlayers().stream()
-                .anyMatch(Player::isAlive);
     }
 
     private List<String> getPossibleTargetNames() {
