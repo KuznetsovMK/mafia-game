@@ -1,5 +1,7 @@
 package role.impl;
 
+import command.ShootCommand;
+import game.Game;
 import lombok.Data;
 import player.Player;
 import role.RoleNameConst;
@@ -10,18 +12,23 @@ import java.util.List;
 
 @Data
 public class Mafia implements Shooter {
+    private Game game;
     private List<Player> mafiaPlayers;
     private static final String INFO = "Прозвучал выстрел...";
 
     @Override
     public void shoot(Player target) {
-        //todo команда выстрела. Изменение поля isAlive произойдёт
-        // в момент выполнения команды
-        target.setAlive(false);
+        var mafiaPlayer = mafiaPlayers.stream()
+                .filter(Player::isAlive)
+                .findFirst()
+                .orElse(new Player());
+
+        game.getShootingQueue().add(new ShootCommand(mafiaPlayer, target));
         System.out.println(INFO);
     }
 
-    public Mafia(List<Player> players) {
+    public Mafia(Game game, List<Player> players) {
+        this.game = game;
         mafiaPlayers = new ArrayList<>();
 
         players.forEach(player -> {

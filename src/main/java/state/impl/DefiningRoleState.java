@@ -23,12 +23,12 @@ public class DefiningRoleState implements State {
 
     @Override
     public void info() {
-
+        //не нужен
     }
 
     @Override
     public void vote(String targetName, String initiatorName, ActionType actionType) {
-
+        //не нужен
     }
 
     private boolean roleIsDefining() {

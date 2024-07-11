@@ -1,5 +1,6 @@
 package game;
 
+import command.Command;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
@@ -9,10 +10,7 @@ import role.impl.Settler;
 import state.State;
 import state.impl.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class Game {
@@ -32,7 +30,7 @@ public class Game {
     private List<String> nightResults = new ArrayList<>();
     //    private List<Player> players = new ArrayList<>();
     private Map<String, Player> playerByName = new HashMap<>();
-    private Map<String, List<String>> suspect = new HashMap<>();
+    private Queue<Command> shootingQueue = new LinkedList<>();
 
     private Settler settler;
     private Detective detective;

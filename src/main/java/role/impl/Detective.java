@@ -1,5 +1,6 @@
 package role.impl;
 
+import command.ShootCommand;
 import game.Game;
 import lombok.Data;
 import player.Player;
@@ -19,9 +20,7 @@ public class Detective implements Shooter, Looking {
 
     @Override
     public void shoot(Player target) {
-        //todo команда выстрела. Изменение поля isAlive произойдёт
-        // в момент выполнения команды
-        target.setAlive(false);
+        game.getShootingQueue().add(new ShootCommand(detectivePlayer, target));
         System.out.println(INFO);
     }
 

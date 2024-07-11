@@ -7,33 +7,41 @@ import state.State;
 
 @AllArgsConstructor
 public class DailyResultState implements State {
+    private static final String INFO = "Наступил день. Все просыпаются.";
+    private static final String SHOOTING = "Ночью произошли следующие события: ";
+    private static final String NO_SHOOTING = "Ночь прошла без проишествий.";
     private Game game;
 
     @Override
     public void nextGameLevel() {
-        System.out.println("Наступил день. Все просыпаются.");
-        if (game.getNightResults().isEmpty()) {
-            System.out.println("Ночь прошла спокойно");
+        System.out.println(INFO);
+
+        if (game.getShootingQueue().isEmpty()) {
+            System.out.println(NO_SHOOTING);
         } else {
-            System.out.println("За предыдущую ночь произошли следующие события: ");
-            game.getNightResults().forEach(System.out::println);
+            System.out.println(SHOOTING);
+
+            while (!game.getShootingQueue().isEmpty()) {
+                var command = game.getShootingQueue().poll();
+                command.execute();
+            }
         }
 
-        if (game.isGameOver()) {
-            game.setState(game.getGameOverState());
-        } else {
-            game.setState(game.getDailyMeetingState());
-            game.getNightResults().clear();
-        }
+        goNextGameLevel();
     }
 
     @Override
     public void info() {
-
+        //не нужен
     }
 
     @Override
     public void vote(String targetName, String initiatorName, ActionType actionType) {
+        //не нужен
+    }
 
+    private void goNextGameLevel() {
+        game.setState(game.getDailyMeetingState());
+        game.nextGameLevel();
     }
 }

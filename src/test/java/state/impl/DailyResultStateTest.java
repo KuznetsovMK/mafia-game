@@ -10,7 +10,7 @@ import role.impl.Settler;
 
 import java.util.List;
 
-class MafiaShootingStateTest {
+class DailyResultStateTest {
     @Test
     void test1() {
         var player1 = Player.builder()
@@ -52,11 +52,13 @@ class MafiaShootingStateTest {
 
         game.vote("Player_1", "Player_3", ActionType.SHOOT);
         game.vote("Player_2", "Player_4", ActionType.SHOOT);
-        game.vote("Player_1", "Player_5", ActionType.SHOOT);
+        game.vote("Player_2", "Player_5", ActionType.SHOOT);
+
+
+        game.vote("Player_5", "Player_2", ActionType.SHOOT);
 
 
         game.gameInfo();
-
     }
 
     private void addPlayers(Game game, List<Player> players) {

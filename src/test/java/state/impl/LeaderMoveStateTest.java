@@ -34,7 +34,7 @@ class LeaderMoveStateTest {
         game.nextGameLevel();
 
         game.setDetective(new Detective(game, player2));
-        game.setMafia(new Mafia(List.of(player1, player3)));
+        game.setMafia(new Mafia(game, List.of(player1, player3)));
 
         game.setState(game.getLeaderMoveState());
         game.nextGameLevel();
