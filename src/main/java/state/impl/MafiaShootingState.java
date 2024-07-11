@@ -19,7 +19,7 @@ import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
 @Data
-public class MafiaShootingState implements State, Voter, Information {
+public class MafiaShootingState implements State {
     private static final String INFO = "Просыпается мафия.";
     private final Game game;
     private Map<String, VotingForm> voteByMafiaName;

@@ -4,8 +4,10 @@ import game.Game;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
+import role.Information;
 import service.TargetService;
 import state.State;
+import vote.Voter;
 import vote.VotingForm;
 
 import java.util.HashMap;

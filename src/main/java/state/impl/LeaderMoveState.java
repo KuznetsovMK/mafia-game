@@ -5,9 +5,11 @@ import lombok.Data;
 import player.Player;
 import player.ShortPlayer;
 import role.ActionType;
+import role.Information;
 import role.RoleNameConst;
 import service.TargetService;
 import state.State;
+import vote.Voter;
 import vote.VotingForm;
 
 import java.util.*;

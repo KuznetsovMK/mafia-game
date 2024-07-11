@@ -2,7 +2,6 @@ package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
-import role.ActionType;
 import state.State;
 
 @AllArgsConstructor
@@ -22,22 +21,12 @@ public class DailyResultState implements State {
             System.out.println(SHOOTING);
 
             while (!game.getShootingQueue().isEmpty()) {
-                var command = game.getShootingQueue().poll();
-                command.execute();
+                var shootingCommand = game.getShootingQueue().poll();
+                shootingCommand.execute();
             }
         }
 
         goNextGameLevel();
-    }
-
-    @Override
-    public void info() {
-        //не нужен
-    }
-
-    @Override
-    public void vote(String targetName, String initiatorName, ActionType actionType) {
-        //не нужен
     }
 
     private void goNextGameLevel() {

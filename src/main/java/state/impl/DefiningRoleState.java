@@ -2,7 +2,6 @@ package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
-import role.ActionType;
 import state.State;
 
 @AllArgsConstructor
@@ -15,20 +14,10 @@ public class DefiningRoleState implements State {
 
         if (roleIsDefining()) {
             System.out.println("Всем игрокам назначены роли. Игра начинается!");
-            game.setState(game.getMafiaMeetingState());
+            game.setState(game.getDailyMeetingState());
         } else {
             System.out.println("Роли еще не назначены всем игрокам.");
         }
-    }
-
-    @Override
-    public void info() {
-        //не нужен
-    }
-
-    @Override
-    public void vote(String targetName, String initiatorName, ActionType actionType) {
-        //не нужен
     }
 
     private boolean roleIsDefining() {

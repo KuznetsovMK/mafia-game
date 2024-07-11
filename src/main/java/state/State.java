@@ -6,7 +6,11 @@ public interface State {
 
     void nextGameLevel();
 
-    void info();
+    default void info() {
+        System.out.println("default method info");
+    }
 
-    void vote(String targetName, String initiatorName, ActionType actionType);
+    default void vote(String targetName, String initiatorName, ActionType actionType) {
+        System.out.println("default method vote");
+    }
 }
