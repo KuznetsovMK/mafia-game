@@ -28,6 +28,8 @@ public class LeaderMoveState implements State {
     public void nextGameLevel() {
         if (game.getDetective().getDetectivePlayer().isAlive()) {
             System.out.println(INFO);
+            //Личное Уведосление с инструкцией
+
             voteByDetectiveName = new HashMap<>();
             targets = getPossibleTargetNames();
 

@@ -49,6 +49,7 @@ public class DefineRoleState implements State {
             var player = players.get(i);
             if (player.getRole() == null) {
                 player.setRole(RoleNameConst.MAFIA);
+                player.setAlive(true);
             }
         }
 
@@ -61,6 +62,7 @@ public class DefineRoleState implements State {
             var player = players.get(i);
             if (player.getRole() == null) {
                 player.setRole(RoleNameConst.DETECTIVE);
+                player.setAlive(true);
                 break;
             }
 
@@ -71,7 +73,10 @@ public class DefineRoleState implements State {
     private void createSettler() {
         players.stream()
                 .filter(player -> player.getRole() == null)
-                .forEach(player -> player.setRole(RoleNameConst.SETTLER));
+                .forEach(player -> {
+                    player.setRole(RoleNameConst.SETTLER);
+                    player.setAlive(true);
+                });
     }
 
     private Map<String, Player> getPlayersMap() {

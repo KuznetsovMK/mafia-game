@@ -2,6 +2,8 @@ package state.impl;
 
 import game.Game;
 import lombok.AllArgsConstructor;
+import role.WinnerType;
+import service.GameOverService;
 import state.State;
 
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class DailyResultState implements State {
             executeCommand();
         }
 
-        goNextGameLevel();
+        goNext();
     }
 
     private void executeCommand() {
@@ -31,6 +33,24 @@ public class DailyResultState implements State {
             var shootingCommand = game.getShootingQueue().poll();
             shootingCommand.execute();
         }
+    }
+
+    private void goNext() {
+        var winner = GameOverService
+                .findWinner(game.getPlayerByName().values().stream().toList());
+
+        if (winner != null) {
+            gameOverLevel(winner);
+
+        } else {
+            goNextGameLevel();
+        }
+    }
+
+    private void gameOverLevel(WinnerType winner) {
+        game.setWinner(winner);
+        game.setState(game.getGameOverState());
+        game.nextGameLevel();
     }
 
     private void goNextGameLevel() {

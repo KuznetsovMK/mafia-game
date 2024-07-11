@@ -1,5 +1,6 @@
 package service;
 
+import lombok.experimental.UtilityClass;
 import vote.VotingForm;
 
 import java.util.*;
@@ -8,9 +9,9 @@ import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
 
+@UtilityClass
 public class TargetService {
-
-    public static VotingForm defineTarget(Map<String, VotingForm> voteFormByInitiatorName) {
+    public VotingForm defineTarget(Map<String, VotingForm> voteFormByInitiatorName) {
         var votesByTargetName = voteFormByInitiatorName.values().stream()
                 .collect(groupingBy(VotingForm::getTargetName, mapping(identity(), toList())));
 

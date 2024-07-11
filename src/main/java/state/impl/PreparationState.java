@@ -16,6 +16,7 @@ public class PreparationState implements State {
 
     @Override
     public void nextGameLevel() {
+        resetLastGamePlayerInfo();
         System.out.println(INFO);
 
         info();
@@ -59,6 +60,15 @@ public class PreparationState implements State {
     private boolean allPlayersReady() {
         return game.getPlayerByName().values().stream()
                 .allMatch(Player::isReady);
+    }
+
+    private void resetLastGamePlayerInfo() {
+        game.getPlayerByName().values()
+                .forEach(player -> {
+                    player.setReady(false);
+                    player.setAlive(false);
+                    player.setRole(null);
+                });
     }
 
     private void goNextGameLevel() {

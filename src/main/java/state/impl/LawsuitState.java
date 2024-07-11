@@ -4,6 +4,8 @@ import game.Game;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
+import role.WinnerType;
+import service.GameOverService;
 import service.TargetService;
 import state.State;
 import vote.VotingForm;
@@ -47,11 +49,7 @@ public class LawsuitState implements State {
             voteFormByInitiatorName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
 
         info();
-
-        if (allConfirm()) {
-            action();
-            goNextGameLevel();
-        }
+        execute();
     }
 
     private List<String> getPossibleTargetNames() {
@@ -76,6 +74,13 @@ public class LawsuitState implements State {
         return vote == null || vote.getActionType() == null;
     }
 
+    private void execute() {
+        if (allConfirm()) {
+            action();
+            goNext();
+        }
+    }
+
     private boolean allConfirm() {
         return !voteFormByInitiatorName.values().isEmpty() &&
                 game.getPlayerByName().values().stream().filter(Player::isAlive).count() ==
@@ -94,6 +99,24 @@ public class LawsuitState implements State {
 
     private VotingForm defineTarget() {
         return TargetService.defineTarget(voteFormByInitiatorName);
+    }
+
+    private void goNext() {
+        var winner = GameOverService
+                .findWinner(game.getPlayerByName().values().stream().toList());
+
+        if (winner != null) {
+            gameOverLevel(winner);
+
+        } else {
+            goNextGameLevel();
+        }
+    }
+
+    private void gameOverLevel(WinnerType winner) {
+        game.setWinner(winner);
+        game.setState(game.getGameOverState());
+        game.nextGameLevel();
     }
 
     private void goNextGameLevel() {

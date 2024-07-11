@@ -4,6 +4,7 @@ import command.Command;
 import lombok.Data;
 import player.Player;
 import role.ActionType;
+import role.WinnerType;
 import role.impl.Detective;
 import role.impl.Mafia;
 import role.impl.Settler;
@@ -28,13 +29,14 @@ public class Game {
     private State gameOverState;
     private State state;
 
-    private boolean gameOver;
     private Map<String, Player> playerByName = new HashMap<>();
     private Queue<Command> shootingQueue = new LinkedList<>();
 
     private Settler settler;
     private Detective detective;
     private Mafia mafia;
+
+    private WinnerType winner;
 
     public Game() {
         preparationState = new PreparationState(this);
