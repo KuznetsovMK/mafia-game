@@ -35,9 +35,9 @@ public class Detective implements Shooter, Looking {
 
     public Detective(Game game, Player player) {
         this.game = game;
-        this.targetRoleByName = new HashMap<>();
+        targetRoleByName = new HashMap<>();
 
-        this.detectivePlayer = player;
+        detectivePlayer = player;
         player.setRole(RoleNameConst.DETECTIVE);
         player.setAlive(true);
     }

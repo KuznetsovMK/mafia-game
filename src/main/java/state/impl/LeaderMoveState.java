@@ -6,6 +6,7 @@ import player.Player;
 import player.ShortPlayer;
 import role.ActionType;
 import role.RoleNameConst;
+import service.TargetService;
 import state.State;
 import vote.VotingForm;
 
@@ -45,6 +46,8 @@ public class LeaderMoveState implements State {
         //добавить валидацию, что цель и стрелок существуют
         if (canVote(initiatorName))
             voteByDetectiveName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
+
+        info();
 
         if (allConfirm()) {
             action();
@@ -101,14 +104,7 @@ public class LeaderMoveState implements State {
     }
 
     private VotingForm getTarget() {
-        var targetList = new ArrayList<>(voteByDetectiveName.values().stream()
-                .toList());
-        if (targetList.size() > 1) {
-            Collections.shuffle(targetList);
-            Collections.shuffle(targetList);
-        }
-
-        return targetList.get(0);
+        return TargetService.defineTarget(voteByDetectiveName);
     }
 
     private void goNextGameLevel() {

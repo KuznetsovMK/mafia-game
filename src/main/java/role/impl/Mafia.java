@@ -21,13 +21,6 @@ public class Mafia implements Shooter {
         System.out.println(INFO);
     }
 
-    public void addMafia(Player player) {
-        mafiaPlayers.add(player);
-        player.setRole(RoleNameConst.MAFIA);
-        player.setAlive(true);
-    }
-
-
     public Mafia(List<Player> players) {
         mafiaPlayers = new ArrayList<>();
 

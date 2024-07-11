@@ -5,6 +5,7 @@ import player.Player;
 import role.ActionType;
 import role.impl.Detective;
 import role.impl.Mafia;
+import role.impl.Settler;
 import state.State;
 import state.impl.*;
 
@@ -33,6 +34,7 @@ public class Game {
     private Map<String, Player> playerByName = new HashMap<>();
     private Map<String, List<String>> suspect = new HashMap<>();
 
+    private Settler settler;
     private Detective detective;
     private Mafia mafia;
 

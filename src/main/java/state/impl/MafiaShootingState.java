@@ -6,11 +6,14 @@ import player.Player;
 import role.ActionType;
 import role.Information;
 import role.RoleNameConst;
+import service.TargetService;
 import state.State;
 import vote.Voter;
 import vote.VotingForm;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
@@ -105,14 +108,7 @@ public class MafiaShootingState implements State, Voter, Information {
     }
 
     private VotingForm getTarget() {
-        var targetList = new ArrayList<>(voteByMafiaName.values().stream()
-                .toList());
-        if (targetList.size() > 1) {
-            Collections.shuffle(targetList);
-            Collections.shuffle(targetList);
-        }
-
-        return targetList.get(0);
+        return TargetService.defineTarget(voteByMafiaName);
     }
 
     private void goNextGameLevel() {

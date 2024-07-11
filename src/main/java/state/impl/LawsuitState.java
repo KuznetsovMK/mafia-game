@@ -1,66 +1,117 @@
 package state.impl;
 
 import game.Game;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import player.Player;
 import role.ActionType;
+import service.TargetService;
 import state.State;
+import vote.VotingForm;
 
-import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
+import static java.util.function.UnaryOperator.identity;
+import static java.util.stream.Collectors.*;
+
+@Data
 public class LawsuitState implements State {
-    private Game game;
+    private static final String INFO = "Голосованием определите возможного преступника...";
+    private final Game game;
+    private Map<String, VotingForm> voteFormByInitiatorName;
+    private List<String> targets;
 
     @Override
     public void nextGameLevel() {
-        System.out.println("Голосованием определите возможного преступника...");
-        possibleSuspectNames();
+        if (someOneAlive()) {
+            System.out.println(INFO);
+            voteFormByInitiatorName = new HashMap<>();
+            targets = getPossibleTargetNames();
 
-        var suspectName = getSuspectName();
+            info();
 
-        if (suspectName != null) {
-            System.out.println("Суд состоялся. Игрок %s выбывает.".formatted(suspectName));
-            var suspect = game.getPlayerByName().get(suspectName);
-            suspect.setAlive(false);
-            game.getSuspect().clear();
-
-            if (game.isGameOver()) {
-                game.setState(game.getGameOverState());
-            } else {
-                game.setState(game.getNightState());
-            }
         } else {
-            System.out.println("Голосование не завершилось. Подозреваемый не определён.");
+            goNextGameLevel();
         }
-
-        System.out.println("Технический переход на другой уровень");
     }
 
     @Override
     public void info() {
+        var alivePlayers = game.getPlayerByName().values().stream()
+                .filter(Player::isAlive)
+                .toList();
 
+        alivePlayers.forEach(player -> player.sendMessage(generateInfo()));
     }
 
     @Override
     public void vote(String targetName, String initiatorName, ActionType actionType) {
+        //добавить валидацию, что цель и стрелок существуют и живы
+        if (canVote(initiatorName))
+            voteFormByInitiatorName.put(initiatorName, new VotingForm(initiatorName, targetName, actionType));
 
+        info();
+
+        if (allConfirm()) {
+            action();
+            goNextGameLevel();
+        }
     }
 
-    private void possibleSuspectNames() {
-        game.getPlayerByName().values()
-                .stream()
+    private boolean someOneAlive() {
+        return game.getPlayerByName().values().stream()
+                .anyMatch(Player::isAlive);
+    }
+
+    private List<String> getPossibleTargetNames() {
+        return game.getPlayerByName().values().stream()
                 .filter(Player::isAlive)
                 .map(Player::getName)
-                .forEach(System.out::println);
+                .toList();
     }
 
-    private String getSuspectName() {
-        return game.getSuspect().entrySet()
-                .stream()
-                .max(Comparator.comparing(e -> e.getValue().size()))
-                .map(Map.Entry::getKey)
-                .orElse(null);
+    private String generateInfo() {
+        var votesByTargetName = voteFormByInitiatorName.values().stream()
+                .collect(groupingBy(VotingForm::getTargetName, mapping(identity(), toList())));
+
+        return targets.stream()
+                .collect(toMap(identity(), target -> votesByTargetName
+                        .getOrDefault(target, List.of())))
+                .toString();
+    }
+
+    private boolean canVote(String initiatorName) {
+        var vote = voteFormByInitiatorName.get(initiatorName);
+        return vote == null || vote.getActionType() == null;
+    }
+
+    private boolean allConfirm() {
+        return !voteFormByInitiatorName.values().isEmpty() &&
+                game.getPlayerByName().values().stream().filter(Player::isAlive).count() ==
+                        voteFormByInitiatorName.values().size() &&
+                voteFormByInitiatorName.values().stream()
+                        .allMatch(e -> e.getActionType() != null);
+    }
+
+    private void action() {
+        var votingForm = defineTarget();
+
+        if (votingForm.getActionType() == ActionType.JUDGE) {
+            game.getSettler().judge(votingForm.getTargetName());
+        }
+    }
+
+    private VotingForm defineTarget() {
+        return TargetService.defineTarget(voteFormByInitiatorName);
+    }
+
+    private void goNextGameLevel() {
+        game.setState(game.getNightState());
+        game.nextGameLevel();
+    }
+
+    public LawsuitState(Game game) {
+        this.game = game;
     }
 }

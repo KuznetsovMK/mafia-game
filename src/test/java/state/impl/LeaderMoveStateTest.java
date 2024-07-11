@@ -40,28 +40,22 @@ class LeaderMoveStateTest {
         game.nextGameLevel();
 
         game.vote("Player_3", "Player_2", null);
-        game.info();
-
         game.vote("Player_1", "Player_2", ActionType.LOOK);
-        game.info();
 
         game.setState(game.getLeaderMoveState());
         game.nextGameLevel();
 
         game.vote("Player_3", "Player_2", ActionType.LOOK);
-        game.info();
 
         game.setState(game.getLeaderMoveState());
         game.nextGameLevel();
 
         game.vote("Player_3", "Player_2", ActionType.SHOOT);
-        game.info();
 
         game.setState(game.getLeaderMoveState());
         game.nextGameLevel();
 
         game.vote("Player_1", "Player_2", ActionType.SHOOT);
-        game.info();
 
         game.setState(game.getLeaderMoveState());
         game.nextGameLevel();
