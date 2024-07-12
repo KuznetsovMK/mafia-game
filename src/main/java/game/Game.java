@@ -20,6 +20,7 @@ import java.util.Queue;
 public class Game {
     private State preparationState;
     private State definingRoleState;
+    private State mafiaMeetingState;
     private State dailyResultState;
     private State dailyMeetingState;
     private State lawsuitState;
@@ -41,6 +42,7 @@ public class Game {
     public Game() {
         preparationState = new PreparationState(this);
         definingRoleState = new DefineRoleState(this);
+        mafiaMeetingState = new MafiaMeetingState(this);
         dailyResultState = new DailyResultState(this);
         dailyMeetingState = new DailyMeetingState(this);
         lawsuitState = new LawsuitState(this);
@@ -50,6 +52,10 @@ public class Game {
         gameOverState = new GameOverState(this);
 
         state = preparationState;
+
+        settler = new Settler(this);
+        detective = new Detective(this);
+        mafia = new Mafia(this);
     }
 
     public void nextGameLevel() {

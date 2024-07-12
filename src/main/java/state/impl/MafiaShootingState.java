@@ -76,6 +76,14 @@ public class MafiaShootingState implements State {
     }
 
     private boolean canVote(String mafiaName) {
+        return isAlive(mafiaName) && correctVote(mafiaName);
+    }
+
+    private boolean isAlive(String mafiaName) {
+        return game.getPlayerByName().get(mafiaName).isAlive();
+    }
+
+    private boolean correctVote(String mafiaName) {
         var vote = voteByMafiaName.get(mafiaName);
         return vote == null || vote.getActionType() == null;
     }

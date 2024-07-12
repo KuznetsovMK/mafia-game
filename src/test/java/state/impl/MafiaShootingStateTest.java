@@ -43,9 +43,9 @@ class MafiaShootingStateTest {
         addPlayers(game, List.of(player1, player2, player3, player4, player5));
         game.nextGameLevel();
 
-        game.setSettler(new Settler(game, List.of(player1)));
-        game.setDetective(new Detective(game, player2));
-        game.setMafia(new Mafia(game, List.of(player3, player4, player5)));
+//        game.setSettler(new Settler(game, List.of(player1)));
+//        game.setDetective(new Detective(game, player2));
+//        game.setMafia(new Mafia(game, List.of(player3, player4, player5)));
 
         game.setState(game.getMafiaShootingState());
         game.nextGameLevel();

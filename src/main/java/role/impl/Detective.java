@@ -5,7 +5,6 @@ import game.Game;
 import lombok.Data;
 import player.Player;
 import role.Looking;
-import role.RoleNameConst;
 import role.Shooter;
 
 import java.util.HashMap;
@@ -32,12 +31,12 @@ public class Detective implements Shooter, Looking {
         System.out.println(INFO);
     }
 
-    public Detective(Game game, Player player) {
+    public void addPlayer(Player player) {
+        detectivePlayer = player;
+    }
+
+    public Detective(Game game) {
         this.game = game;
         targetRoleByName = new HashMap<>();
-
-        detectivePlayer = player;
-        player.setRole(RoleNameConst.DETECTIVE);
-        player.setAlive(true);
     }
 }

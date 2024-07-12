@@ -43,9 +43,9 @@ class LawsuitStateTest {
         addPlayers(game, List.of(player1, player2, player3, player4, player5));
         game.nextGameLevel();
 
-        game.setSettler(new Settler(game, List.of(player1, player2)));
-        game.setDetective(new Detective(game, player3));
-        game.setMafia(new Mafia(game, List.of(player4, player5)));
+//        game.setSettler(new Settler(game, List.of(player1, player2)));
+//        game.setDetective(new Detective(game, player3));
+//        game.setMafia(new Mafia(game, List.of(player4, player5)));
 
         game.setState(game.getLawsuitState());
         game.nextGameLevel();

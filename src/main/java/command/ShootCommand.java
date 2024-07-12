@@ -10,7 +10,7 @@ public class ShootCommand implements Command {
 
     @Override
     public void execute() {
-        if (initiator.isAlive()) {
+        if (initiator.isAlive() && target.isAlive()) {
             target.setAlive(false);
             System.out.println("%s/%s - убит".formatted(target.getName(), target.getRole()));
         }

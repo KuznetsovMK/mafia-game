@@ -50,6 +50,8 @@ public class DefineRoleState implements State {
             if (player.getRole() == null) {
                 player.setRole(RoleNameConst.MAFIA);
                 player.setAlive(true);
+
+                game.getMafia().addPlayer(player);
             }
         }
 
@@ -63,6 +65,8 @@ public class DefineRoleState implements State {
             if (player.getRole() == null) {
                 player.setRole(RoleNameConst.DETECTIVE);
                 player.setAlive(true);
+
+                game.getDetective().addPlayer(player);
                 break;
             }
 
@@ -76,6 +80,8 @@ public class DefineRoleState implements State {
                 .forEach(player -> {
                     player.setRole(RoleNameConst.SETTLER);
                     player.setAlive(true);
+
+                    game.getSettler().addPlayer(player);
                 });
     }
 
@@ -87,7 +93,7 @@ public class DefineRoleState implements State {
     }
 
     private void goNextGameLevel() {
-        game.setState(game.getDailyMeetingState());
+        game.setState(game.getMafiaMeetingState());
         game.nextGameLevel();
     }
 

@@ -18,7 +18,6 @@ import static java.util.function.UnaryOperator.identity;
 import static java.util.stream.Collectors.*;
 
 @Data
-@AllArgsConstructor
 public class MafiaMeetingState implements State {
     private static final String INFO = "Мафия знакомится.";
     private static final String MEETING_CONFIRM = "Знакомство завершено";
@@ -105,7 +104,11 @@ public class MafiaMeetingState implements State {
     }
 
     private void goNextGameLevel() {
-        game.setState(game.getLeaderMoveState());
+        game.setState(game.getDailyMeetingState());
         game.nextGameLevel();
+    }
+
+    public MafiaMeetingState(Game game) {
+        this.game = game;
     }
 }

@@ -13,5 +13,6 @@ public class NightState implements State {
     public void nextGameLevel() {
         System.out.println(INFO);
         game.setState(game.getMafiaShootingState());
+        game.nextGameLevel();
     }
 }

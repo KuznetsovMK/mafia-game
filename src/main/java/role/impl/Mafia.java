@@ -4,7 +4,6 @@ import command.ShootCommand;
 import game.Game;
 import lombok.Data;
 import player.Player;
-import role.RoleNameConst;
 import role.Shooter;
 
 import java.util.ArrayList;
@@ -27,14 +26,12 @@ public class Mafia implements Shooter {
         System.out.println(INFO);
     }
 
-    public Mafia(Game game, List<Player> players) {
+    public void addPlayer(Player player) {
+        mafiaPlayers.add(player);
+    }
+
+    public Mafia(Game game) {
         this.game = game;
         mafiaPlayers = new ArrayList<>();
-
-        players.forEach(player -> {
-            mafiaPlayers.add(player);
-            player.setRole(RoleNameConst.MAFIA);
-            player.setAlive(true);
-        });
     }
 }
