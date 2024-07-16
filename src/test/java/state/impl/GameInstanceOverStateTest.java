@@ -7,7 +7,7 @@
 //
 //import java.util.List;
 //
-//class MafiaShootingStateTest {
+//class GameInstanceOverStateTest {
 //    @Test
 //    void test1() {
 //        var player1 = Player.builder()
@@ -40,16 +40,18 @@
 //        addPlayers(game, List.of(player1, player2, player3, player4, player5));
 //        game.nextGameLevel();
 //
-////        game.setSettler(new Settler(game, List.of(player1)));
-////        game.setDetective(new Detective(game, player2));
-////        game.setMafia(new Mafia(game, List.of(player3, player4, player5)));
+////        game.setSettler(new Settler(game, List.of(player1, player2)));
+////        game.setDetective(new Detective(game, player3));
+////        game.setMafia(new Mafia(game, List.of(player4)));
 //
-//        game.setState(game.getMafiaShootingState());
+//        game.setState(game.getLawsuitState());
 //        game.nextGameLevel();
 //
-//        game.vote("Player_1", "Player_3", ActionType.SHOOT);
-//        game.vote("Player_2", "Player_4", ActionType.SHOOT);
-//        game.vote("Player_1", "Player_5", ActionType.SHOOT);
+//        game.vote("Player_4", "Player_1", ActionType.JUDGE);
+//        game.vote("Player_4", "Player_3", ActionType.JUDGE);
+//        game.vote("Player_1", "Player_4", ActionType.JUDGE);
+//        game.vote("Player_4", "Player_2", ActionType.JUDGE);
+//        game.vote("Player_1", "Player_5", ActionType.JUDGE);
 //
 //
 //        game.gameInfo();

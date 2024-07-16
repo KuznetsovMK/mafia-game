@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>mafia-game</artifactId>
+	<artifactId>mafia-gameInstance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mafia-game</name>
-	<description>mafia-game</description>
+	<name>mafia-gameInstance</name>
+	<description>mafia-gameInstance</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -1,3 +1,3 @@
-spring:
-  application:
-    name: mafia-game
+game:
+  instance:
+    id: a30c874e-2376-4bbd-b095-4ca80577ec77

@@ -1,6 +1,6 @@
 package app.game;
 
-import app.role.ActionType;
+import app.role.consts.ActionType;
 import lombok.Builder;
 import lombok.Data;
 

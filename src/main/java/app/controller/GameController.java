@@ -25,11 +25,15 @@ public class GameController {
             @DestinationVariable String gameId,
             @Payload GameMessage gameMessage
     ) {
+
+        System.out.println("---- %s %s ----".formatted(gameMessage.getSender(), gameMessage.getType()));
+
         var instance = game.getGameInstance(UUID.fromString(gameMessage.getGameId()));
         instance.vote(gameMessage.getTarget(), gameMessage.getSender(), gameMessage.getType());
 
         var path = "/topic/%s-public".formatted(gameId);
-        messagingTemplate.convertAndSend(path, instance.info());
+//        messagingTemplate.convertAndSend(path, instance.info());
+        System.out.println(instance.info());
 
         instance.nextGameLevel();
     }
@@ -46,7 +50,8 @@ public class GameController {
         Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", gameMessage.getSender());
 
         var path = "/topic/%s-public".formatted(gameId);
-        messagingTemplate.convertAndSend(path, gameMessage);
+//        messagingTemplate.convertAndSend(path, instance.info());
+        System.out.println(instance.info());
     }
 
     private GameInstancePlayer createNewPlayer(String name) {
